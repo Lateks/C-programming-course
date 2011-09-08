@@ -5,12 +5,11 @@ float. Test with different values. */
 
 int main()
 {
-    char k = 'k', punct = '@';
-    int a = 1, b = 1337;
-    float pi = 3.14159, e = 2.718;
+    char a = '@';
+    int b = 1337;
+    float pi = 3.14159;
 
-    printf("char: %c\ninteger: %d\npi: %.5f\n***\n", k, a, pi); 
-    printf("symbol: %c\ninteger: %d\nEuler's constant: %.3f", punct, b, e);
+    printf("char: %c\ninteger: %d\npi: %f\n", a, b, pi); 
 
     return 0;
 }

@@ -8,7 +8,7 @@ difference in performances. */
 #include "euclid.h"
 
 int main() {
-    long int a = 98765432198765, b = 123456789012345;
+    long int a = 90000000, b = 234565455;
     printf("%ld\n", gcd_rec(a, b));
     printf("%ld\n", gcd_rec(a, b));
     

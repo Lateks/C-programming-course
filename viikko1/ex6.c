@@ -6,7 +6,7 @@ int main()
     long ix = 1234567890;
     short s = 5043;
     float x = 1.14159;
-    double dx = 1.14159265678;
+    double dx = 1.1415927;
     char c = 'G';
     unsigned long ux = 2134567890;
 
