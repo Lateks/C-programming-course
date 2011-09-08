@@ -28,15 +28,11 @@ c) After the first statement, what values are represented by pj and *pj;
     pj points to *pj which points to the variable j
 
 d) After the second statement, what value is represented by i?
-    i is uninitialized, so as a local variable it has no value
-    If i was a static/global variable, it would have been initialized to zero.
+    i is j + 5 which equals 35.
 
 e) After the third statement, what values are represented by pi and *pi?
-    pi points to a memory address
-    *pi (the contents of the memory address) has not been initialized
+    pi points to the same memory address as pj
 
 f) After the fourth statement, what values are represented by pi and *pi?
-    pi and *pi have not been changed after the third statement.
-    (After the _fifth_ statement pi points to another address, the same as
-    pj, and therefore *pi == *pj.)
+    pi still points to the same memory address as pj, *pi == *pj == 65
 */
