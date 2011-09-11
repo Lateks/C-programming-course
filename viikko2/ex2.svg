@@ -89,11 +89,11 @@
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1131"
-     inkscape:window-height="744"
-     inkscape:window-x="66"
+     inkscape:window-width="1280"
+     inkscape:window-height="776"
+     inkscape:window-x="0"
      inkscape:window-y="24"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      fit-margin-top="1"
      units="cm"
      fit-margin-right="1"
@@ -101,7 +101,7 @@
      fit-margin-left="1">
     <sodipodi:guide
        orientation="0,1"
-       position="457.61489,273.38453"
+       position="454.54545,273.48485"
        id="guide5526" />
     <sodipodi:guide
        orientation="0,1"
@@ -120,7 +120,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -488,21 +488,21 @@
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="299.99997"
-       y="812.21039"
+       x="351.51511"
+       y="801.60431"
        id="text6182"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6184"
-         x="299.99997"
-         y="812.21039">((short*)arr)[7] = 128</tspan><tspan
+         x="351.51511"
+         y="801.60431">((short*)arr)[7] = 128</tspan><tspan
          sodipodi:role="line"
-         x="299.99997"
-         y="827.21039"
+         x="351.51511"
+         y="816.60431"
          id="tspan6186">2 bytes</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1.06712389px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow1Lstart-8)"
-       d="m 441.70024,663.69848 56.75105,63.56923"
+       d="m 465.11238,663.62438 56.75105,63.56923"
        id="path6188"
        inkscape:connector-curvature="0" />
     <text
@@ -537,30 +537,29 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow1Lstart-8)"
-       d="m 379.54545,138.04579 c 0,0 -46.21212,79.54545 -10.60606,126.51515"
+       d="m 414.55383,663.7247 c 0,0 46.21212,79.54545 10.60606,126.51515"
        id="path6433"
-       inkscape:connector-curvature="0"
-       transform="translate(0,527.95246)" />
+       inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow1Lstart-8)"
-       d="m 344.69697,665.99825 c 0,0 1.51516,48.48485 -34.09091,81.81818"
+       d="m 355.30303,662.96712 c 0,0 1.51516,48.48485 -34.09091,81.81818"
        id="path6623"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="200"
-       y="759.93762"
+       x="207.57576"
+       y="760.69519"
        id="text6813"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6815"
-         x="200"
-         y="759.93762"
+         x="207.57576"
+         y="760.69519"
          style="fill:#660080">((char*)&amp;arr[1])[6] = 'A'</tspan><tspan
          sodipodi:role="line"
-         x="200"
-         y="774.93762"
+         x="207.57576"
+         y="775.69519"
          id="tspan6817"
          style="fill:#660080">1 byte</tspan></text>
     <text
@@ -657,5 +656,23 @@
            x="463.63635"
            y="319.10638"
            style="fill:#aad400" /></flowRegion><flowPara
-         id="flowPara7077">arr[0]</flowPara></flowRoot>  </g>
+         id="flowPara7077">arr[0]</flowPara></flowRoot>    <path
+       style="fill:#ccffaa;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m 408.33333,96.937996 92.42425,0"
+       id="path3259"
+       inkscape:connector-curvature="0"
+       transform="translate(10.566929,540.92881)" />
+    <path
+       style="fill:#ccffaa;fill-opacity:1;stroke:#000000;stroke-width:0.75757575"
+       d="m 410.79671,106.99807 0,-9.469699 21.21212,0 21.21212,0 0,9.469699 0,9.46969 -21.21212,0 -21.21212,0 0,-9.46969 z"
+       id="path3261"
+       inkscape:connector-curvature="0"
+       transform="translate(10.566929,540.92881)" />
+    <path
+       style="fill:#ccffaa;fill-opacity:1;stroke:#000000;stroke-width:0.75757575"
+       d="m 456.25125,107.37686 0,-9.848489 22.34849,0 22.34848,0 0,9.848489 0,9.84848 -22.34848,0 -22.34849,0 0,-9.84848 z"
+       id="path3263"
+       inkscape:connector-curvature="0"
+       transform="translate(10.566929,540.92881)" />
+  </g>
 </svg>
