@@ -9,6 +9,7 @@ typedef struct list_node {
 
 typedef struct list {
     Node *first_node;
+    Node *last_node;
 } List;
 
 Node make_node(int value) {
@@ -35,15 +36,14 @@ void insert_at_beginning(List *list, Node *new_node) {
 
 /* Removes the given node. */
 void remove_from_list(List *list, Node *node) {
-    if (node->prev) {
+    if (node->prev)
         node->prev->next = node->next;
-        if (node->next)
-            node->next->prev = node->prev;
-    }
-    else {
-        node->next->prev = NULL;
+    else
         list->first_node = node->next;
-    }
+    if (node->next)
+        node->next->prev = node->prev;
+    else
+        list->last_node = node->prev;
 }
 
 /* Print out a list */
@@ -60,6 +60,7 @@ int main() {
     List list;
     Node first = make_node(1);
     list.first_node = &first;
+    list.last_node = &first;
     print_list(&list);
 
     Node node1 = make_node(0);
