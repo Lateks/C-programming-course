@@ -3,13 +3,13 @@
 
 typedef struct list_node {
     int value;
-    struct list_node *prev;
-    struct list_node *next;
+    struct list_node* prev;
+    struct list_node* next;
 } Node;
 
 typedef struct list {
-    Node *first_node;
-    Node *last_node;
+    Node* first_node;
+    Node* last_node;
 } List;
 
 Node make_node(int value) {

@@ -2,12 +2,12 @@
 #include <stdio.h>
 
 typedef struct list {
-    struct list_node *first_node;
+    struct list_node* first_node;
 } List;
 
 typedef struct list_node {
     int value;
-    struct list_node *next;
+    struct list_node* next;
 } Node;
 
 /* Return a node bearing the given integer value. */
