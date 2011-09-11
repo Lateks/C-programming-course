@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -std=c99 -pedantic -Wall -Wextra -Werror
 
-all: ex1 ex3 ex4
+all: ex1 ex3 ex4 ex5
 
 clean:
-	rm -f ex1 ex3 ex4 *.o
+	rm -f ex1 ex3 ex4 ex5 *.o
