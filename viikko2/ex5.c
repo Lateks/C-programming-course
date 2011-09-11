@@ -1,6 +1,5 @@
 /* Exercises 5 and 6: a singly linked list. */
 #include <stdio.h>
-#include <stdlib.h>
 
 typedef struct list {
     struct list_node *first_node;
