@@ -16,7 +16,7 @@ void shuffle_ints(int* array, int len)
     } while(--len);
 }
 
-int main()
+int main(void)
 {
     int len = 7;
     int nums[] = { 0, 1, 2, 3, 4, 5, 6 };

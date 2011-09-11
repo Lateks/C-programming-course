@@ -37,7 +37,7 @@ void print_doubles(double* array, int len)
     printf("%.5f\n", array[len-1]);
 }
 
-int main() {
+int main(void) {
     double nums[LEN] = { 1.5, 3.5, 5.5, 7.5, 9.5 };
     shuffle(nums, LEN, sizeof(double));
 

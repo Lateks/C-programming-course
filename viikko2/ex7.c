@@ -56,7 +56,7 @@ void print_list(List *list) {
     printf("\n");
 }
 
-int main() {
+int main(void) {
     List list;
     Node first = make_node(1);
     list.first_node = &first;

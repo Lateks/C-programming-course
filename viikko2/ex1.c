@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main()
+int main(void)
 {
     int i, j=25;
     int *pi, *pj=&j;
