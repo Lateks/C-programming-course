@@ -26,13 +26,13 @@ void shuffle(void* array, int len, size_t elem_size) {
     char* arr = array;
     do {
         int i = rand()/((float) RAND_MAX)*(len);
-        swap(&arr[i*elem_size], &arr[len*elem_size], elem_size);
-    } while (--len);
+        swap(&arr[i*elem_size], &arr[(len-1)*elem_size], elem_size);
+    } while (--len > 1);
 }
 
 void print_doubles(double* array, int len)
 {
-    for (int i; i < len-1; i++)
+    for (int i = 0; i < len-1; i++)
         printf("%.5f, ", array[i]);
     printf("%.5f\n", array[len-1]);
 }

@@ -15,14 +15,16 @@ int main(void)
 /*
 Test experimentally and explain the results:
 a) After the definitions, what values are represented by i, j, &i, &j?
-    i == 35, &i is the memory address of the variable i
-    j == 65, &j is the memory address of the variable j
+    i is uninitialized
+    &i is the memory address of the uninitialized variable i
+    j is 25
+    &j is the memory address of the variable j
 
 b) After the definitions, what values are represented by pi, pj, *pi, *pj?
     pi is uninitialized
     pj is a pointer to (memory address of) variable j
     *pi is uninitialized
-    *pj is the same as the variable j (= 25)
+    *pj is the variable j (= 25)
 
 c) After the first statement, what values are represented by pj and *pj;
    pj is a pointer to (memory address of) variable j

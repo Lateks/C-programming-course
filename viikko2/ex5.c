@@ -35,6 +35,7 @@ void remove_after(Node *node) {
     node->next = node->next->next;
 }
 
+/* Remove the node at the beginning of the given list. */
 void remove_at_beginning(List *list) {
     list->first_node = list->first_node->next;
 }

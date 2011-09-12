@@ -3,8 +3,7 @@
 #include <time.h>
 
 /* Fisher-Yates shuffle */
-void shuffle_ints(int* array, int len)
-{
+void shuffle_ints(int* array, int len) {
     if (len < 2)
         return;
     srand(time(NULL));
@@ -13,11 +12,10 @@ void shuffle_ints(int* array, int len)
         int temp = array[len-1];
         array[len-1] = array[j];
         array[j] = temp;
-    } while(--len);
+    } while(--len > 1);
 }
 
-int main(void)
-{
+int main(void) {
     int len = 7;
     int nums[] = { 0, 1, 2, 3, 4, 5, 6 };
     shuffle_ints(nums, len);

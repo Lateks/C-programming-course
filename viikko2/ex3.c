@@ -2,7 +2,7 @@
 
 void print_doubles(double* array, int len)
 {
-    for (int i; i < len-1; i++)
+    for (int i = 0; i < len-1; i++)
         printf("%.5f, ", array[i]);
     printf("%.5f\n", array[len-1]);
 }

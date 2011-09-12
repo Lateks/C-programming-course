@@ -12,6 +12,7 @@ typedef struct list {
     Node* last_node;
 } List;
 
+/* Node constructor. */
 Node make_node(int value) {
     Node new_node;
     new_node.value = value;
@@ -59,8 +60,7 @@ void print_list(List *list) {
 int main(void) {
     List list;
     Node first = make_node(1);
-    list.first_node = &first;
-    list.last_node = &first;
+    list.first_node = list.last_node = &first;
     print_list(&list);
 
     Node node1 = make_node(0);
