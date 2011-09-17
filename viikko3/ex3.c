@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv []) {
     int ch;
-    bool prev_nonempty = false;
+    bool is_eol, was_eol = false;
     FILE *fptr, *fout;
 
     if (argc < 2) {
@@ -30,10 +30,10 @@ int main(int argc, char* argv []) {
     }
 
     while ((ch = getc(fptr)) != EOF) {
-        bool is_eol = (ch == '\n' || ch == '\r');
-        if (!is_eol || prev_nonempty)
+        is_eol = (ch == '\n');
+        if (!(is_eol || (ch == '\r')) || !was_eol)
             putc(ch, fout);
-        prev_nonempty = !is_eol;
+        was_eol = is_eol;
     }
     fclose(fptr);
 
