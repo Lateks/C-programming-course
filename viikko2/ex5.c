@@ -1,5 +1,6 @@
 /* Exercises 5 and 6: a singly linked list. */
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct list {
     struct list_node* first_node;
@@ -11,10 +12,10 @@ typedef struct list_node {
 } Node;
 
 /* Return a node bearing the given integer value. */
-Node make_node(int value) {
-    Node new_node;
-    new_node.value = value;
-    new_node.next = NULL;
+Node *make_node(int value) {
+    Node* new_node = malloc(sizeof(Node));
+    new_node->value = value;
+    new_node->next = NULL;
     return new_node;
 }
 
@@ -32,12 +33,16 @@ void insert_at_beginning(List *list, Node *new_node) {
 
 /* Remove the node that follows the given node. */
 void remove_after(Node *node) {
+    Node* old = node->next;
     node->next = node->next->next;
+    free(old);
 }
 
 /* Remove the node at the beginning of the given list. */
 void remove_at_beginning(List *list) {
+    Node* old = list->first_node;
     list->first_node = list->first_node->next;
+    free(old);
 }
 
 /* Print out a list */
@@ -52,20 +57,20 @@ void print_list(List *list) {
 
 int main(void) {
     List list;
-    Node first = make_node(1);
-    list.first_node = &first;
+    Node* first = make_node(1);
+    list.first_node = first;
     print_list(&list);
 
-    Node node1 = make_node(0);
-    Node node2 = make_node(2);
+    Node* node1 = make_node(0);
+    Node* node2 = make_node(2);
 
-    insert_at_beginning(&list, &node1);
+    insert_at_beginning(&list, node1);
     print_list(&list);
 
-    insert_after(&first, &node2);
+    insert_after(first, node2);
     print_list(&list);
 
-    remove_after(&node1);
+    remove_after(node1);
     print_list(&list);
 
     remove_at_beginning(&list);

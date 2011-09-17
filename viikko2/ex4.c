@@ -9,6 +9,8 @@ void shuffle_ints(int* array, int len) {
     srand(time(NULL));
     do {
         int j = rand()/((float) RAND_MAX)*(len);
+        // another possible way to do this (might be biased)
+        // int j = rand()%(len);
         int temp = array[len-1];
         array[len-1] = array[j];
         array[j] = temp;

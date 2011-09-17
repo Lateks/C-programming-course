@@ -1,5 +1,6 @@
 /* Exercises 7 to 9: a doubly linked list. */
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct list_node {
     int value;
@@ -13,11 +14,11 @@ typedef struct list {
 } List;
 
 /* Node constructor. */
-Node make_node(int value) {
-    Node new_node;
-    new_node.value = value;
-    new_node.prev = NULL;
-    new_node.next = NULL;
+Node* make_node(int value) {
+    Node* new_node = malloc(sizeof(Node));
+    new_node->value = value;
+    new_node->prev = NULL;
+    new_node->next = NULL;
     return new_node;
 }
 
@@ -45,6 +46,7 @@ void remove_from_list(List *list, Node *node) {
         node->next->prev = node->prev;
     else
         list->last_node = node->prev;
+    free(node);
 }
 
 /* Print out a list */
@@ -59,23 +61,23 @@ void print_list(List *list) {
 
 int main(void) {
     List list;
-    Node first = make_node(1);
-    list.first_node = list.last_node = &first;
+    Node* first = make_node(1);
+    list.first_node = list.last_node = first;
     print_list(&list);
 
-    Node node1 = make_node(0);
-    Node node2 = make_node(2);
+    Node* node1 = make_node(0);
+    Node* node2 = make_node(2);
 
-    insert_at_beginning(&list, &node1);
+    insert_at_beginning(&list, node1);
     print_list(&list);
 
-    insert_after(&first, &node2);
+    insert_after(first, node2);
     print_list(&list);
 
-    remove_from_list(&list, &node1);
+    remove_from_list(&list, node1);
     print_list(&list);
 
-    remove_from_list(&list, &node2);
+    remove_from_list(&list, node2);
     print_list(&list);
 
     return 0;

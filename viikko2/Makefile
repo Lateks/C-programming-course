@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -std=c99 -pedantic -Wall -Wextra -Werror -Wuninitialized
+CFLAGS = -g -std=c99 -pedantic -Wall -Wextra -Werror
 
 all: ex1 ex3 ex4 ex5 ex7 ex10 dynarray
 

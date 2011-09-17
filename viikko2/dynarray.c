@@ -64,7 +64,6 @@ int main(void) {
     DynArray* arr = DynArray_create();
     for (int i = 0; i <= 25; i++) {
         if (!DynArray_append(arr, i)) {
-            printf("Append fail.");
             return 1;
         }
     }
