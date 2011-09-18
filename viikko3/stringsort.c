@@ -25,6 +25,7 @@ int read_strings(FILE *fptr, char* array[]) {
             fseek(fptr, -str_len, SEEK_CUR);
 
             fread(string, sizeof(char), str_len - 1, fptr);
+            string[str_len-1] = '\0';
             array[strings] = string;
             strings++;
             ch = getc(fptr);
