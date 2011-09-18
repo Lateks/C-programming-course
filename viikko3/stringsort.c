@@ -5,6 +5,7 @@ list in order. */
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdbool.h>
 
 #define LEN 1000
 
@@ -48,7 +49,7 @@ void print_array(char* array[], int len) {
 }
 
 void shellsort(char* array[], int len) {
-    int inc = round((float) len/2.0);
+    int inc = round(len/2.0);
     while (inc > 0) {
         for (int i = inc; i < len; i++) {
             char* temp = array[i];
@@ -59,7 +60,26 @@ void shellsort(char* array[], int len) {
             }
             array[j] = temp;
         }
-        inc = round((float) inc/2.2);
+        inc = round(inc/2.2);
+    }
+}
+
+void combsort(char* array[], int len) {
+    int gap = len;
+    bool swapped = true;
+    while (gap > 1 || swapped) {
+        if (gap > 1)
+            gap = (int) (gap/1.247330950103979);
+
+        swapped = false;
+        for (int i = 0; i + gap < len; ++i) {
+            if (strcmp(array[i], array[i+gap]) > 0) {
+                char* temp = array[i];
+                array[i] = array[i+gap];
+                array[i+gap] = temp;
+                swapped = true;
+            }
+        }
     }
 }
 
@@ -78,7 +98,7 @@ int main(int argc, char* argv []) {
 
     int strings = read_strings(fptr, array);
 
-    shellsort(array, strings);
+    combsort(array, strings);
     print_array(array, strings);
 
     exit(0);
