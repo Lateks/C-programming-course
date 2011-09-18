@@ -13,20 +13,22 @@ the given char pointer array. */
 int read_strings(FILE *fptr, char* array[]) {
     int ch, str_len;
     int strings = 0;
-    int last_hash = 0;
     int eof_reached = 0;
+    int last_hash = 0;
     int i = 0;
     while ((ch = getc(fptr))) {
-        if (!(eof_reached = (ch == EOF)))
+        if (!(eof_reached = feof(fptr)))
             ++i;
         if (ch == '#' || eof_reached) {
             str_len = i - last_hash;
             char* string = (char*) malloc(str_len*sizeof(char));
             fseek(fptr, -str_len, SEEK_CUR);
 
-            fread(string, str_len - 1, 1, fptr);
+            fread(string, sizeof(char), str_len - 1, fptr);
             array[strings] = string;
             strings++;
+            ch = getc(fptr);
+            last_hash = i;
 
             if (eof_reached)
                 break;
@@ -34,9 +36,6 @@ int read_strings(FILE *fptr, char* array[]) {
                 fprintf(stderr, "Too many strings, sorting the first %d.", LEN);
                 break;
             }
-
-            getc(fptr);
-            last_hash = i;
         }
     }
     return strings;
