@@ -4,7 +4,12 @@ list in order. */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
+#define LEN 1000
+
+/* Reads the strings in the file pointed to by fptr into
+the given char pointer array. */
 int read_strings(FILE *fptr, char* array[]) {
     int ch, str_len;
     int strings = 0;
@@ -25,6 +30,10 @@ int read_strings(FILE *fptr, char* array[]) {
 
             if (eof_reached)
                 break;
+            if (strings >= LEN) {
+                fprintf(stderr, "Too many strings, sorting the first %d.", LEN);
+                break;
+            }
 
             getc(fptr);
             last_hash = i;
@@ -33,11 +42,30 @@ int read_strings(FILE *fptr, char* array[]) {
     return strings;
 }
 
-// void sort(char* array);
+void print_array(char* array[], int len) {
+    for (int i = 0; i < len; i++)
+        printf("%s\n", array[i]);
+}
+
+void shellsort(char* array[], int len) {
+    int inc = round((float) len/2.0);
+    while (inc > 0) {
+        for (int i = inc; i < len; i++) {
+            char* temp = array[i];
+            int j = i;
+            while (j >= inc && strcmp(array[j-inc], temp) > 0) {
+                array[j] = array[j-inc];
+                j = j-inc;
+            }
+            array[j] = temp;
+        }
+        inc = round((float) inc/2.2);
+    }
+}
 
 int main(int argc, char* argv []) {
     FILE* fptr;
-    char* array[1000];
+    char* array[LEN];
 
     if (argc < 2) {
         fprintf(stderr, "Usage: stringsort filename.\n");
@@ -50,8 +78,8 @@ int main(int argc, char* argv []) {
 
     int strings = read_strings(fptr, array);
 
-    for (int j = 0; j < strings; j++)
-        printf("%s\n", array[j]);
+    shellsort(array, strings);
+    print_array(array, strings);
 
     exit(0);
 }
