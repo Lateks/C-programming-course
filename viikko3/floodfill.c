@@ -56,30 +56,26 @@ char* load_data(char* filename) {
     return data;
 }
 
-void remove_newlines_and_calculate_height(Map* map, int data_len) {
-    size_t size = (map->width + 1)*sizeof(char);
-    char* newdata = malloc(size);
-    if (!newdata)
-        return;
-    int height = 1;
+/* Removes newlines from the given data (mutates the original
+memory area) and returns the length of the new data. */
+int remove_newlines(char** data, int data_len) {
+    int newlen = data_len;
     int i = 0;
     for (int j = 0; j <= data_len; j++) {
-        if (is_line_break(map->data[j])) {
-            if (map->data[j] == '\n' && j != data_len - 1) {
-                size = size + map->width;
-                newdata = realloc(newdata, size);
-                if (!newdata)
-                    return;
-                height++;
-            }
-        }
+        if (is_line_break((*data)[j]))
+            newlen--;
         else {
-            newdata[i] = map->data[j];
+            (*data)[i] = (*data)[j];
             i++;
         }
     }
-    map->data = newdata;
-    map->height = height;
+    *data = realloc(*data, newlen*sizeof(char));
+    if (!data) {
+        fprintf(stderr, "Ran out of memory.\n");
+        exit(2);
+    }
+
+    return newlen;
 }
 
 /* Exercise 9 */
@@ -90,7 +86,6 @@ Map* load_map(char* filename) {
     Map *new_map = malloc(sizeof(Map));
     if (!new_map)
         return NULL;
-    new_map->data = data;
 
     int width = 0;
     while (!is_line_break(data[width]))
@@ -98,13 +93,10 @@ Map* load_map(char* filename) {
     new_map->width = width;
 
     unsigned int data_length = get_file_length(filename);
-    remove_newlines_and_calculate_height(new_map, data_length);
-    if (!new_map->height) {
-        fprintf(stderr, "Memory allocation failed.");
-        exit(2);
-    }
+    data_length = remove_newlines(&data, data_length);
+    new_map->data = data;
     
-    free(data);
+    new_map->height = data_length/width;
 
     return new_map;
 }
@@ -153,7 +145,11 @@ char random_digit_symbol() {
 }
 
 /* Exercise 14. Disregarded the unnecessary parameter wall
-in the assignment. */
+in the assignment. Despite the name, this is not flood fill.
+A true procedural flood fill would have to use e.g. a queue
+and also take the starting coordinates as parameters, but
+the description in the assignment does not match a flood
+fill algorithm. */
 void flood_fill(Map *the_map) {
     for (int y = 0; y < the_map->height; y++)
         for (int x = 0; x < the_map->width; x++) {
@@ -161,6 +157,7 @@ void flood_fill(Map *the_map) {
                 continue;
             char c = random_digit_symbol();
             set_char_at(the_map, x, y, c);
+            print_map(the_map);
         }
 }
 
@@ -187,7 +184,7 @@ int main(int argc, char* argv[]) {
     char* map_file = argv[1];
     Map *map = load_map(map_file);
     if (!map) {
-        fprintf(stderr, "Failed to load map from %s.\n", map_file);
+        fprintf(stderr, "Ran out of memory.\n");
         exit(2);
     }
 
