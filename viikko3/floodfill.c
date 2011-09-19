@@ -46,7 +46,7 @@ char* load_data(char* filename) {
     size_t chars_read = fread(data, sizeof(char), data_length, fptr);
     fclose(fptr);
 
-    data[data_length-1] = '\0';
+    data[data_length] = '\0';
 
     if (chars_read != (size_t) data_length) {
         free(data);
@@ -54,6 +54,32 @@ char* load_data(char* filename) {
     }
 
     return data;
+}
+
+void remove_newlines_and_calculate_height(Map* map, int data_len) {
+    size_t size = (map->width + 1)*sizeof(char);
+    char* newdata = malloc(size);
+    if (!newdata)
+        return;
+    int height = 1;
+    int i = 0;
+    for (int j = 0; j <= data_len; j++) {
+        if (is_line_break(map->data[j])) {
+            if (map->data[j] == '\n' && j != data_len - 1) {
+                size = size + map->width;
+                newdata = realloc(newdata, size);
+                if (!newdata)
+                    return;
+                height++;
+            }
+        }
+        else {
+            newdata[i] = map->data[j];
+            i++;
+        }
+    }
+    map->data = newdata;
+    map->height = height;
 }
 
 /* Exercise 9 */
@@ -64,36 +90,35 @@ Map* load_map(char* filename) {
     Map *new_map = malloc(sizeof(Map));
     if (!new_map)
         return NULL;
-
     new_map->data = data;
 
     int width = 0;
-    do {
-        if (is_line_break(data[width])) {
-            width++;
-            bool is_windows = is_line_break(data[width+1]);
-            if (is_windows)
-                width++;
-            break;
-        }
-    } while (++width);
+    while (!is_line_break(data[width]))
+        width++;
     new_map->width = width;
 
     unsigned int data_length = get_file_length(filename);
-    int height = 1;
-    for (unsigned int i = width; i < data_length; i++) {
-        if (!is_line_break(data[i]) && is_line_break(data[i-1]))
-            height++;
+    remove_newlines_and_calculate_height(new_map, data_length);
+    if (!new_map->height) {
+        fprintf(stderr, "Memory allocation failed.");
+        exit(2);
     }
-    new_map->height = height;
+    
+    free(data);
 
     return new_map;
 }
 
 /* Exercise 10 */
 void print_map(Map* the_map) {
-    printf("width: %d, height: %d\n%s\n", the_map->width, the_map->height,
-        the_map->data);
+    printf("width: %d, height: %d\n", the_map->width, the_map->height);
+    for (int y = 0; y < the_map->height; y++) {
+        for (int x = 0; x < the_map->width; x++) {
+            int index = y * the_map->width + x;
+            printf("%c", the_map->data[index]);
+        }
+        printf("\n");
+    }
 }
 
 /* Exercise 13 */
@@ -167,7 +192,7 @@ int main(int argc, char* argv[]) {
     }
 
     print_map(map);
-    rec_flood_fill(map, 6, 4);
+    rec_flood_fill(map, 7, 3);
 
     exit(0);
 }
