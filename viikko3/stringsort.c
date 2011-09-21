@@ -29,7 +29,7 @@ int read_strings(FILE *fptr, char* array[]) {
             string[str_len-1] = '\0';
             array[strings] = string;
             strings++;
-            ch = getc(fptr);
+            getc(fptr); // discard the hash
             last_hash = i;
 
             if (eof_reached)
