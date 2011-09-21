@@ -104,11 +104,12 @@ Map* load_map(char* filename) {
 /* Exercise 10 */
 void print_map(Map* the_map) {
     printf("width: %d, height: %d\n", the_map->width, the_map->height);
+    int i = 0;
     for (int y = 0; y < the_map->height; y++) {
-        for (int x = 0; x < the_map->width; x++) {
-            int index = y * the_map->width + x;
-            printf("%c", the_map->data[index]);
-        }
+        do {
+            printf("%c", the_map->data[i]);
+            i++;
+        } while(i % the_map->width != 0);
         printf("\n");
     }
 }
