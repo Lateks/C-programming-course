@@ -52,6 +52,36 @@ uint8_t extract_byte(FILE* f) {
     return lsbyte;
 }
 
+// Ex. 6
+uint32_t read_uint32(FILE* f) {
+    uint8_t bytes[4];
+    
+    for (int i = 0; i < 4; i++)
+        bytes[i] = fgetc(f);
+
+    return make_32bit(bytes[0], bytes[1], bytes[2], bytes[3]);
+}
+
+// Ex. 7
+uint32_t read_pixel_offset(FILE* f) {
+    fseek(f, 0xa, SEEK_SET);
+
+    return read_uint32(f);
+}
+
+// Ex. 8
+void print_hidden_message(FILE* f) {
+    uint32_t offset = read_pixel_offset(f);
+    fseek(f, offset, SEEK_SET);
+
+    uint8_t byte = extract_byte(f);
+    while (byte) {
+        printf("%c", byte);
+        byte = extract_byte(f);
+    }
+    printf("\n");
+}
+
 int main(void) {
     print_bin(0);
     print_bin(1);
@@ -63,10 +93,13 @@ int main(void) {
     print_bin(make_32bit(1, 2, 3, 4));
 
     FILE* picture = fopen("whoa.bmp", "r");
-    if (picture)
-        printf("%d\n", extract_byte(picture));
-    else
+    if (!picture)
         fprintf(stderr, "Could not open the picture file.\n");
+
+    printf("extracted byte: %d\n", extract_byte(picture));
+    printf("pixel offset: %d\n", read_pixel_offset(picture));
+
+    print_hidden_message(picture);
 
     exit(0);
 }
