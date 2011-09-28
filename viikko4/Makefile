@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -g -std=c99 -pedantic -Wall -Wextra -Werror -Wuninitialized
 LDFLAGS = -lm
 
-all: binaryex
+all: binaryex studentnums
 
 clean:
-	rm -f binaryex *.o
+	rm -f binaryex studentnums *.o
