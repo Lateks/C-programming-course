@@ -38,6 +38,20 @@ uint32_t make_32bit(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4) 
     return make_16bit(byte3, byte4) << 16 | make_16bit(byte1, byte2);
 }
 
+// Ex. 4
+uint8_t read_lsb(FILE* f) {
+    uint8_t byte = fgetc(f);
+    return byte & 1;
+}
+
+// Ex. 5
+uint8_t extract_byte(FILE* f) {
+    uint8_t lsbyte = 0;
+    for (int i = 0; i < 8; i++)
+        lsbyte |= read_lsb(f) << i;
+    return lsbyte;
+}
+
 int main(void) {
     print_bin(0);
     print_bin(1);
@@ -47,6 +61,12 @@ int main(void) {
 
     print_bin(make_16bit(7, 1));
     print_bin(make_32bit(1, 2, 3, 4));
+
+    FILE* picture = fopen("whoa.bmp", "r");
+    if (picture)
+        printf("%d\n", extract_byte(picture));
+    else
+        fprintf(stderr, "Could not open the picture file.\n");
 
     exit(0);
 }
