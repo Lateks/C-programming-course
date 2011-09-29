@@ -6,6 +6,10 @@
 
 char* byte_to_binary(unsigned int byte) {
     char* binary = calloc(9, sizeof(char));
+    if (!binary) {
+        fprintf(stderr, "Ran out of memory.\n");
+        exit(1);
+    }
     binary += 8;
     *binary = '\0';
 
@@ -26,6 +30,8 @@ void print_bin(uint32_t number) {
     }
 
     printf("%s %s %s %s\n", bytes[3], bytes[2], bytes[1], bytes[0]);
+    for (int i = 0; i < 4; i++)
+        free(bytes[i]);
 }
 
 // Ex. 2
@@ -100,6 +106,7 @@ int main(void) {
     printf("pixel offset: %d\n", read_pixel_offset(picture));
 
     print_hidden_message(picture);
+    fclose(picture);
 
     exit(0);
 }
