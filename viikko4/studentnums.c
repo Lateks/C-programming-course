@@ -23,6 +23,7 @@ int main(void) {
         fscanf(studentnums, "%u\n", &student);
         printf("%09u\n", student);
     }
+    fclose(studentnums);
 
     exit(0);
 }
