@@ -37,16 +37,17 @@ void add_transition_node(Transition * TL, Transition * T) {
 }
 
 //Ex. 12
-int add_transition(State * s, int symbol, int state) {
+void add_transition(State * s, int symbol, int state) {
     Transition * new_transition = malloc(sizeof(Transition));
-    if (!new_transition)
-        return 0;
+    if (!new_transition) {
+        fprintf(stderr, "Ran out of memory.\n");
+        exit(1);
+    }
 
     new_transition->symbol = symbol;
     new_transition->state = state;
     add_transition_node(s->transitions, new_transition);
     s->transitions = new_transition;
-    return 1;
 }
 
 // Ex. 13
@@ -62,34 +63,23 @@ Symbol * read_symbols(int symbol_nr, FILE *fp) {
         if (getc(fp) != '\n') {
             fprintf(stderr, "The name of symbol number %d is too long.\n",
                 symbols->int_value);
-            exit(1);
+            exit(2);
         }
     }
 
     return symbols;
 }
 
-// Ex. 14
-Automaton read_automaton(FILE * fp) {
-    int symbol_count, state_count, initial, final_count;
-    fscanf(fp, "%d %d %d\n%d ", &state_count, &symbol_count, &initial, &final_count);
+void read_final_states(FILE* fp, int final_state_count, int* state_array) {
+    for (int i = 0; i < final_state_count - 1; i++)
+        fscanf(fp, "%d ", state_array + i);
+    fscanf(fp, "%d\n", state_array + final_state_count - 1);
+}
 
-    int* final_states = calloc(final_count, sizeof(int));
+State* read_states(int state_count, int initial, int* final_states, Automaton* automaton) {
     State* states = calloc(state_count, sizeof(State));
-    Automaton automaton;
-    automaton.state_count = state_count;
-    automaton.symbol_count = symbol_count;
-
-    if (!final_states || !states) {
-        fprintf(stderr, "Ran out of memory.\n");
-        free(final_states);
-        free(states);
-        exit(1);
-    }
-
-    for (int i = 0; i < final_count - 1; i++)
-        fscanf(fp, "%d ", final_states + i);
-    fscanf(fp, "%d\n", final_states + final_count - 1);
+    if (!states)
+        return NULL;
 
     int j = 0;
     int state;
@@ -98,7 +88,7 @@ Automaton read_automaton(FILE * fp) {
         states[i].state = state;
         if (state == initial) {
             states[i].type = 1;
-            automaton.initial = state;
+            automaton->initial = state;
         }
         else if (state == final_states[j]) {
             states[i].type = -1;
@@ -108,12 +98,42 @@ Automaton read_automaton(FILE * fp) {
             states[i].type = 0;
     }
 
-    automaton.states = states;
-    automaton.symbols = read_symbols(symbol_count, fp);
+    return states;
+}
 
+void read_transitions(FILE* fp, State* states) {
     int from_state, to_state, symbol;
     while (fscanf(fp, "%d %d %d\n", &from_state, &symbol, &to_state) != EOF)
         add_transition(&states[from_state - 1], symbol, to_state);
+}
+
+// Ex. 14
+Automaton read_automaton(FILE * fp) {
+    int symbol_count, state_count, initial, final_count;
+    fscanf(fp, "%d %d %d\n%d ", &state_count, &symbol_count, &initial, &final_count);
+
+    Automaton automaton;
+    automaton.state_count = state_count;
+    automaton.symbol_count = symbol_count;
+
+    int* final_states = calloc(final_count, sizeof(int));
+    if (!final_states) {
+        fprintf(stderr, "Ran out of memory.\n");
+        exit(1);
+    }
+
+    read_final_states(fp, final_count, final_states);
+
+    State* states = read_states(state_count, initial, final_states, &automaton);
+    if (!states) {
+        fprintf(stderr, "Ran out of memory.\n");
+        free(final_states);
+        exit(1);
+    }
+
+    automaton.states = states;
+    automaton.symbols = read_symbols(symbol_count, fp);
+    read_transitions(fp, states);
 
     return automaton;
 }
@@ -124,8 +144,7 @@ bool is_deterministic(Automaton maatti) {
         int* symbols = calloc(maatti.state_count, sizeof(int));
         for (Transition* current = maatti.states[i].transitions;
             current != NULL; current = current->next) {
-            symbols[current->symbol - 1]++;
-            if (symbols[current->symbol - 1] > 1) {
+            if (++symbols[current->symbol - 1] > 1) {
                 free(symbols);
                 return false;
             }
@@ -141,6 +160,7 @@ bool accept(Automaton* maatti, int nr_of_symbols, int* symbols) {
         fprintf(stderr, "Non-deterministic automata not supported.\n");
         exit(2);
     }
+
     State* current_state = &maatti->states[maatti->initial - 1];
     bool transitioned;
     for (int i = 0; i < nr_of_symbols; i++) {
