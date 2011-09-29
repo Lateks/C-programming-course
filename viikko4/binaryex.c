@@ -11,7 +11,7 @@ char* byte_to_binary(unsigned int byte) {
 
     for (int i = 0; i < 8; i++)
         *--binary = byte & 1 << i ? '1' : '0';
-    
+
     return binary;
 }
 
@@ -55,7 +55,7 @@ uint8_t extract_byte(FILE* f) {
 // Ex. 6
 uint32_t read_uint32(FILE* f) {
     uint8_t bytes[4];
-    
+
     for (int i = 0; i < 4; i++)
         bytes[i] = fgetc(f);
 
