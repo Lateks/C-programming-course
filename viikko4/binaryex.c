@@ -30,12 +30,12 @@ void print_bin(uint32_t number) {
 
 // Ex. 2
 uint16_t make_16bit(uint8_t least_significant, uint8_t most_significant) {
-    return most_significant << 8 | least_significant;
+    return ((uint16_t) most_significant) << 8 | least_significant;
 }
 
 // Ex. 3
 uint32_t make_32bit(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4) {
-    return make_16bit(byte3, byte4) << 16 | make_16bit(byte1, byte2);
+    return ((uint32_t) make_16bit(byte3, byte4)) << 16 | make_16bit(byte1, byte2);
 }
 
 // Ex. 4

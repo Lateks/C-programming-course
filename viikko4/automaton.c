@@ -108,13 +108,13 @@ void read_transitions(FILE* fp, State* states) {
 }
 
 // Ex. 14
-Automaton read_automaton(FILE * fp) {
+Automaton* read_automaton(FILE * fp) {
     int symbol_count, state_count, initial, final_count;
     fscanf(fp, "%d %d %d\n%d ", &state_count, &symbol_count, &initial, &final_count);
 
-    Automaton automaton;
-    automaton.state_count = state_count;
-    automaton.symbol_count = symbol_count;
+    Automaton* automaton = malloc(sizeof(Automaton));
+    automaton->state_count = state_count;
+    automaton->symbol_count = symbol_count;
 
     int* final_states = calloc(final_count, sizeof(int));
     if (!final_states) {
@@ -124,25 +124,25 @@ Automaton read_automaton(FILE * fp) {
 
     read_final_states(fp, final_count, final_states);
 
-    State* states = read_states(state_count, initial, final_states, &automaton);
+    State* states = read_states(state_count, initial, final_states, automaton);
+    free(final_states);
     if (!states) {
         fprintf(stderr, "Ran out of memory.\n");
-        free(final_states);
         exit(1);
     }
 
-    automaton.states = states;
-    automaton.symbols = read_symbols(symbol_count, fp);
+    automaton->states = states;
+    automaton->symbols = read_symbols(symbol_count, fp);
     read_transitions(fp, states);
 
     return automaton;
 }
 
 // Ex. 15
-bool is_deterministic(Automaton maatti) {
-    for (int i = 0; i < maatti.state_count; i++) {
-        int* symbols = calloc(maatti.state_count, sizeof(int));
-        for (Transition* current = maatti.states[i].transitions;
+bool is_deterministic(Automaton* maatti) {
+    for (int i = 0; i < maatti->state_count; i++) {
+        int* symbols = calloc(maatti->state_count, sizeof(int));
+        for (Transition* current = maatti->states[i].transitions;
             current != NULL; current = current->next) {
             if (++symbols[current->symbol - 1] > 1) {
                 free(symbols);
@@ -156,7 +156,7 @@ bool is_deterministic(Automaton maatti) {
 
 // Ex. 16
 bool accept(Automaton* maatti, int nr_of_symbols, int* symbols) {
-    if (!is_deterministic(*maatti)) {
+    if (!is_deterministic(maatti)) {
         fprintf(stderr, "Non-deterministic automata not supported.\n");
         exit(2);
     }
@@ -181,7 +181,7 @@ bool accept(Automaton* maatti, int nr_of_symbols, int* symbols) {
     return false;
 }
 
-void print_automaton(Automaton * maatti) {
+void print_automaton(Automaton* maatti) {
     for (int i = 0; i < maatti->state_count; i++) {
         printf("State %d, type %d\n", i+1, maatti->states[i].type);
         for (Transition* current = maatti->states[i].transitions;
@@ -191,21 +191,40 @@ void print_automaton(Automaton * maatti) {
     for (int i = 0; i < maatti->symbol_count; i++)
         printf("Symbol %d %s\n", maatti->symbols[i].int_value,
             maatti->symbols[i].symbol);
-    if (is_deterministic(*maatti))
+    if (is_deterministic(maatti))
         printf("Deterministic\n");
     else
         printf("Non-deterministic\n");
 }
 
+void destroy_automaton(Automaton* maatti) {
+    free(maatti->symbols);
+    for (int i = 0; i < maatti->state_count; i++) {
+        Transition* current = maatti->states[i].transitions;
+        while (current) {
+            Transition* next = current->next;
+            free(current);
+            current = next;
+        }
+    }
+    free(maatti->states);
+    free(maatti);
+}
+
 int main(void) {
-    Automaton maatti = read_automaton(fopen("example_automaton.txt", "r"));
-    print_automaton(&maatti);
+    FILE* automaton_fptr = fopen("example_automaton.txt", "r");
+    Automaton* maatti = read_automaton(automaton_fptr);
+    fclose(automaton_fptr);
+
+    print_automaton(maatti);
 
     int abba[] = {1, 2, 2, 1};
     int bbaa[] = {2, 2, 1, 1};
 
-    printf("Accepts abba = %s\n", accept(&maatti, 4, abba) ? "true" : "false");
-    printf("Accepts bbaa = %s\n", accept(&maatti, 5, bbaa) ? "true" : "false");
+    printf("Accepts abba = %s\n", accept(maatti, 4, abba) ? "true" : "false");
+    printf("Accepts bbaa = %s\n", accept(maatti, 5, bbaa) ? "true" : "false");
+
+    destroy_automaton(maatti);
 
     exit(0);
 }
