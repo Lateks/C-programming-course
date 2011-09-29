@@ -59,26 +59,38 @@ void print_list(List *list) {
     printf("\n");
 }
 
+void destroy_list(List *list) {
+    Node *current = list->first_node;
+    while (current) {
+        Node* next = current->next;
+        free(current);
+        current = next;
+    }
+    free(list);
+}
+
 int main(void) {
-    List list;
+    List* list = malloc(sizeof(List));
     Node* first = make_node(1);
-    list.first_node = list.last_node = first;
-    print_list(&list);
+    list->first_node = list->last_node = first;
+    print_list(list);
 
     Node* node1 = make_node(0);
     Node* node2 = make_node(2);
 
-    insert_at_beginning(&list, node1);
-    print_list(&list);
+    insert_at_beginning(list, node1);
+    print_list(list);
 
     insert_after(first, node2);
-    print_list(&list);
+    print_list(list);
 
-    remove_from_list(&list, node1);
-    print_list(&list);
+    remove_from_list(list, node1);
+    print_list(list);
 
-    remove_from_list(&list, node2);
-    print_list(&list);
+    remove_from_list(list, node2);
+    print_list(list);
+
+    destroy_list(list);
 
     return 0;
 }
